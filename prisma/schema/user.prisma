@@ -1,0 +1,10 @@
+model User {
+    sub              String    @id @default(uuid())
+    name             String
+    email            String    @unique
+    password         String
+    sentMessages     Message[] @relation(name: "send_messages")
+    receivedMessages Message[] @relation(name: "received_messages")
+
+    @@map("users")
+}
