@@ -8,8 +8,8 @@ export const tokenMiddleware = (
 ) => {
   const authHeader = req.headers.authorization || "";
   const [type, token] = authHeader.split(" ");
-  if (!token) return new Error("Unauthorized");
+  if (!token) throw new Error("Unauthorized");
   const data = verify(token, process.env.JWT_SECRET_KEY as string);
-  if (!data) return new Error("Invalid Token");
+  if (!data) throw new Error("Invalid Token");
   next();
 };
