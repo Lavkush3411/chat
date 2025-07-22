@@ -15,6 +15,10 @@ class AuthRepository {
   createUser(data: SignUpDto) {
     return this.prismaClient.user.create({ data });
   }
+
+  findByEmail(email: string) {
+    return this.prismaClient.user.findUnique({ where: { email } });
+  }
 }
 
 export const authRepository = AuthRepository.get();
