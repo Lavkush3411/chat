@@ -1,8 +1,6 @@
 import express from "express";
-
-import http, { IncomingMessage } from "http";
+import "module-alias/register";
 import { config } from "dotenv";
-
 import { appMiddlewares } from "./app.middlewares";
 
 async function main() {
