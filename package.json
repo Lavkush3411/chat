@@ -4,7 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "local": "nodemon"
+    "local": "nodemon",
+    "generate": "npx prisma generate",
+    "migrate": "npx prisma migrate dev",
+    "migrate:prod": "npx prisma migrate deploy"
   },
   "prisma": {
     "schema": "./prisma"
@@ -16,9 +19,12 @@
   "dependencies": {
     "@prisma/client": "^6.12.0",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/ws": "^8.18.1",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "reflect-metadata": "^0.2.2",
     "ws": "^8.18.3",
     "zod": "^4.0.5"

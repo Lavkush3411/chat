@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sockets = void 0;
+exports.sockets = exports.Sockets = void 0;
 class Sockets {
     constructor() {
         this.sockets = new Map();
@@ -18,3 +18,4 @@ class Sockets {
     }
 }
 exports.Sockets = Sockets;
+exports.sockets = new Sockets();

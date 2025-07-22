@@ -21,3 +21,5 @@ export class Sockets {
     socket?.send(message);
   }
 }
+
+export const sockets = new Sockets();

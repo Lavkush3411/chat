@@ -1,0 +1,54 @@
+import { errorHandler } from "./_common/middlewares/error.middleware";
+import { responseWrapper } from "./_common/middlewares/response.middleware";
+import { authRouter } from "./auth/auth.controller";
+import { socketHandler } from "./socket/socket.handler";
+import Websocket from "ws";
+import express, { Express } from "express";
+import http, { Server } from "http";
+
+export const appMiddlewares = (app: Express): Server => {
+  /**
+   * add global middlewares
+   */
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(responseWrapper);
+
+  /**
+   * add routers
+   */
+  app.use("/auth", authRouter);
+
+  /**
+   * end routers
+   * ==========================
+   */
+
+  /**
+   * create http server using express app
+   */
+  const server = http.createServer(app);
+
+  /**
+   * pass http to websocket server
+   */
+  const wss = new Websocket.Server({ server });
+  /**
+   * attach socket events
+   */
+  wss.on("connection", socketHandler);
+
+  wss.on("close", (socket: any, req: any) => {
+    console.log("connection dropped");
+  });
+
+  /**
+   * insert global error handler
+   */
+  app.use(errorHandler);
+
+  /**
+   * finally return http server
+   */
+  return server;
+};
