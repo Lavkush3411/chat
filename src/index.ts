@@ -7,7 +7,7 @@ async function main() {
   config();
   const app = express();
   const server = appMiddlewares(app);
-  server.listen(3000, () => console.log("started listening on 3000"));
+  server.listen(3001, () => console.log("started listening on 3001"));
 }
 
 main();
