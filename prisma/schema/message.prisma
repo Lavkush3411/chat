@@ -1,3 +1,8 @@
+enum MessageStatus{
+    Read
+    Unread
+    Sent
+}
 model Message {
     id         String @id @default(uuid())
     message    String
@@ -5,6 +10,8 @@ model Message {
     senderId   String
     receiver   User   @relation(name: "received_messages", fields: [receiverId], references: [sub])
     receiverId String
+    status MessageStatus  @default(Unread)
 
     @@map("messages")
 }
+

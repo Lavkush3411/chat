@@ -7,6 +7,6 @@ export const createMessage = (senderId: string, message: CreateMessageDto) => {
   return messageRepository.createMessage(senderId, message);
 };
 
-export const findMessagesByReceiverId = (receiverId: string) => {
-  return messageRepository.findMessagesByReceiverId(receiverId);
+export const findUnreadMessagesByReceiverId = (receiverId: string) => {
+  return messageRepository.findUnreadMessagesByReceiverId(receiverId);
 };

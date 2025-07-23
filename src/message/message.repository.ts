@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma";
+import { MessageStatus, PrismaClient } from "@prisma";
 import { prisma } from "../prisma/prisma.client";
 import { CreateMessageDto } from "./dtos/message.dto";
 
@@ -14,8 +14,10 @@ class MessageRepository {
     });
   }
 
-  findMessagesByReceiverId(receiverId: string) {
-    return this.prisma.message.findMany({ where: { receiverId } });
+  findUnreadMessagesByReceiverId(receiverId: string) {
+    return this.prisma.message.findMany({
+      where: { receiverId, status: MessageStatus.Unread },
+    });
   }
 }
 

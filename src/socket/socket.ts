@@ -1,7 +1,7 @@
 import { CreateMessageDto } from "src/message/dtos/message.dto";
 import {
   createMessage,
-  findMessagesByReceiverId,
+  findUnreadMessagesByReceiverId,
 } from "src/message/message.service";
 import { WebSocket } from "ws";
 
@@ -14,7 +14,7 @@ export class Sockets {
 
   async add(userId: string, socket: WebSocket) {
     this.sockets.set(userId, socket);
-    const messages = await findMessagesByReceiverId(userId);
+    const messages = await findUnreadMessagesByReceiverId(userId);
     for (const message of messages) {
       socket.send(message.message);
     }
