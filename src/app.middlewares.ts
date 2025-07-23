@@ -5,11 +5,13 @@ import { socketHandler } from "./socket/socket.handler";
 import Websocket from "ws";
 import express, { Express } from "express";
 import http, { Server } from "http";
+import { dbConnection } from "./db/db.connection";
 
-export const appMiddlewares = (app: Express): Server => {
+export const appMiddlewares = async (app: Express): Promise<Server> => {
   /**
    * add global middlewares
    */
+  await dbConnection();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(responseWrapper);

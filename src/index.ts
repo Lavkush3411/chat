@@ -6,7 +6,7 @@ import { appMiddlewares } from "./app.middlewares";
 async function main() {
   config();
   const app = express();
-  const server = appMiddlewares(app);
+  const server = await appMiddlewares(app);
   server.listen(3001, () => console.log("started listening on 3001"));
 }
 
