@@ -1,11 +1,11 @@
 import { errorHandler } from "./_common/middlewares/error.middleware";
 import { responseWrapper } from "./_common/middlewares/response.middleware";
-import { authRouter } from "./auth/auth.controller";
 import { socketHandler } from "./socket/socket.handler";
 import Websocket from "ws";
 import express, { Express } from "express";
 import http, { Server } from "http";
 import { dbConnection } from "./db/db.connection";
+import { userRouter } from "./user/user.controller";
 
 export const appMiddlewares = async (app: Express): Promise<Server> => {
   /**
@@ -19,7 +19,7 @@ export const appMiddlewares = async (app: Express): Promise<Server> => {
   /**
    * add routers
    */
-  app.use("/auth", authRouter);
+  app.use("/user", userRouter);
 
   /**
    * end routers

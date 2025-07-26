@@ -21,7 +21,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^6.12.0",
+    "@typegoose/typegoose": "^12.17.0",
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
@@ -36,8 +36,5 @@
     "reflect-metadata": "^0.2.2",
     "ws": "^8.18.3",
     "zod": "^4.0.5"
-  },
-  "devDependencies": {
-    "prisma": "^6.12.0"
   }
 }

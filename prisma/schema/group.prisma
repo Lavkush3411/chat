@@ -1,5 +1,0 @@
-model Group {
-id String @id @default(ulid())
-
-    @@map("groups")
-}

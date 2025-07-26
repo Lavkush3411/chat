@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { authRepository } from "./auth.repository";
 import { compare, hash } from "bcrypt";
 import { sign } from "jsonwebtoken";
+import { userRepository } from "./user.repository";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const user = await authRepository.findByEmail(email);
+  let user = await userRepository.findByEmail(email);
   if (!user) throw new Error("UserNotFound");
   const isSame = await compare(password, user?.password as string);
   if (!isSame) throw new Error("Unauthorized");
@@ -18,6 +18,7 @@ export const signup = async (req: Request, res: Response) => {
   const { password } = req.body;
   const hashedPassword = await hash(password, 10);
   req.body.password = hashedPassword;
-  const { password: _, ...user } = await authRepository.createUser(req.body);
-  res.status(201).json(user);
+  const user = await userRepository.createUser(req.body);
+  const { password: _, ...userObject } = user.toObject();
+  res.status(201).json(userObject);
 };
