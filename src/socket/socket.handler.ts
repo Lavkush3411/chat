@@ -9,10 +9,17 @@ export const socketHandler = async (
   socket: WebSocket,
   req: IncomingMessage
 ) => {
+  /**
+   * extract jwt token from request
+   */
   const {
     query: { token },
   } = parse(req.url as string, true);
   let user: UserType;
+
+  /**
+   * verify the jwt token
+   */
   try {
     user = jwt.verify(
       token as any,
@@ -23,7 +30,15 @@ export const socketHandler = async (
     return;
   }
 
+  /**
+   * if verified then add user to sockets list
+   */
+
   await sockets.add(user._id, socket);
+
+  /**
+   * handle every upcoming messages
+   */
   socket.on("message", async (message) => {
     await sockets.sendMessage(user._id, JSON.parse(message.toString()));
   });

@@ -6,6 +6,7 @@ import {
   Ref,
 } from "@typegoose/typegoose";
 import { User } from "src/db/models/user.model";
+import { Group } from "./group.model";
 
 export enum MessageStatus {
   READ = "read",
@@ -24,6 +25,9 @@ class Message {
 
   @prop({ ref: () => User, required: true })
   receiverId!: Ref<User>;
+
+  @prop({ ref: () => Group, required: false })
+  groupId?: Ref<Group>;
 
   @prop({ required: true })
   message!: string;
