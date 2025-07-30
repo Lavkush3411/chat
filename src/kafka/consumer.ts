@@ -1,5 +1,6 @@
 import { MESSAGE_CREATE_TOPIC } from "src/_common/constants/kafka.constants";
 import { kafka } from "./kafka";
+import { createMessageBulk } from "src/message/services/message.service";
 
 export const startConsumer = async () => {
   try {
@@ -15,10 +16,15 @@ export const startConsumer = async () => {
       eachBatchAutoResolve: true,
       eachBatch: async ({ batch }) => {
         const { topic, partition, messages } = batch;
-        for (let message of messages) {
-          const { key, value } = message;
-          console.log(topic, partition, key?.toString(), value?.toString());
-        }
+
+        const messageList = messages.map(({ key, value }) => ({
+          senderId: key?.toString(),
+          receiverId: (value?.toJSON() as unknown as { receiverId: string })
+            ?.receiverId,
+          message: (value?.toJSON() as unknown as { message: string })?.message,
+        }));
+
+        await createMessageBulk(messageList);
       },
     });
   } catch (e) {

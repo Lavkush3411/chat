@@ -4,6 +4,7 @@ import { WebSocket } from "ws";
 import { sockets } from "./socket";
 import jwt from "jsonwebtoken";
 import { UserType } from "src/db/models/user.model";
+import { createMessageDto } from "src/message/dtos/message.dto";
 
 export const socketHandler = async (
   socket: WebSocket,
@@ -40,8 +41,13 @@ export const socketHandler = async (
    * handle every upcoming messages
    */
   socket.on("message", async (message) => {
-    console.log("user", user);
-    await sockets.sendMessage(user._id, JSON.parse(message.toString()));
+    if (!user._id) throw new Error("Sender ID not Found");
+    if (!user.name) throw new Error("Sender Name not found");
+    const msg = JSON.parse(message.toString());
+    const result = createMessageDto.safeParse(msg);
+    if (!result.data) throw new Error("Bad Request in message");
+
+    await sockets.sendMessage(user._id, msg);
   });
   socket.on("close", (socket, reason) => {
     console.log(reason.toString());

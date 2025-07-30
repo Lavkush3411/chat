@@ -11,6 +11,9 @@ export const createMessage = (
   return messageRepository.createMessage(senderId, message);
 };
 
+export const createMessageBulk = (data: any) => {
+  return messageRepository.createMessageBulk(data);
+};
 export const findUnreadMessagesByReceiverId = (receiverId: Types.ObjectId) => {
   return messageRepository.findUnreadMessagesByReceiverId(receiverId);
 };

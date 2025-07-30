@@ -5,6 +5,7 @@ import { z } from "zod";
 export const createMessageDto = z.object({
   message: z.string().min(1),
   receiverId: objectId,
+  senderName: z.string(),
 });
 
 export type CreateMessageDto = z.infer<typeof createMessageDto>;

@@ -14,6 +14,10 @@ class MessageRepository {
     });
   }
 
+  createMessageBulk(data: any[]) {
+    return messageModel.insertMany(data);
+  }
+
   findUnreadMessagesByReceiverId(receiverId: Types.ObjectId) {
     return messageModel.find({
       receiverId,

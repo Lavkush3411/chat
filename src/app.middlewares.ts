@@ -14,10 +14,13 @@ export const appMiddlewares = async (app: Express): Promise<Server> => {
   /**
    * add global middlewares
    */
-  await dbConnection();
-  await initializeTopics();
-  await startProducer();
-  await startConsumer();
+
+  await Promise.all([
+    dbConnection(),
+    initializeTopics(),
+    startProducer(),
+    startConsumer(),
+  ]);
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

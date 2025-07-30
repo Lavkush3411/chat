@@ -34,7 +34,6 @@ export class Sockets {
     const { receiverId } = createMessageDto;
     const receiverSocket = this.sockets.get(receiverId);
     if (receiverSocket) receiverSocket.send(createMessageDto.message);
-    console.log("senderId", senderId);
     await producer.send({
       topic: MESSAGE_CREATE_TOPIC,
       messages: [
