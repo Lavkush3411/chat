@@ -6,12 +6,19 @@ import express, { Express } from "express";
 import http, { Server } from "http";
 import { dbConnection } from "./db/db.connection";
 import { userRouter } from "./user/user.controller";
+import { initializeTopics } from "./kafka/topic-initialization";
+import { startProducer } from "./kafka/producer";
+import { startConsumer } from "./kafka/consumer";
 
 export const appMiddlewares = async (app: Express): Promise<Server> => {
   /**
    * add global middlewares
    */
   await dbConnection();
+  await initializeTopics();
+  await startProducer();
+  await startConsumer();
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(responseWrapper);

@@ -31,6 +31,7 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
+    "kafkajs": "^2.2.4",
     "module-alias": "^2.2.3",
     "mongoose": "^8.16.4",
     "reflect-metadata": "^0.2.2",

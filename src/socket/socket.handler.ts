@@ -40,6 +40,7 @@ export const socketHandler = async (
    * handle every upcoming messages
    */
   socket.on("message", async (message) => {
+    console.log("user", user);
     await sockets.sendMessage(user._id, JSON.parse(message.toString()));
   });
   socket.on("close", (socket, reason) => {

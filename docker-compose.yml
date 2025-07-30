@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  kafka:
+    image: apache/kafka:4.0.1-rc0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+  mongodb:
+    image: mongo:noble
+    ports:
+      - "27017:27017"
