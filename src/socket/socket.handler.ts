@@ -41,11 +41,33 @@ export const socketHandler = async (
    * handle every upcoming messages
    */
   socket.on("message", async (message) => {
-    if (!user._id) throw new Error("Sender ID not Found");
-    if (!user.name) throw new Error("Sender Name not found");
+    if (!user._id)
+      return socket.send(
+        JSON.stringify({
+          message: "user name not found",
+          status: 401,
+          ack: false,
+        })
+      );
+    if (!user.name)
+      return socket.send(
+        JSON.stringify({
+          message: "user name not found",
+          status: 401,
+          ack: false,
+        })
+      );
     const msg = JSON.parse(message.toString());
     const result = createMessageDto.safeParse(msg);
-    if (!result.data) throw new Error("Bad Request in message");
+    if (!result.data)
+      return socket.send(
+        JSON.stringify({
+          message: "message format has errors",
+          errors: result.error,
+          status: 401,
+          ack: false,
+        })
+      );
 
     await sockets.sendMessage(user._id, msg);
   });
