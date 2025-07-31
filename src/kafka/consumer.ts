@@ -15,8 +15,7 @@ export const startConsumer = async () => {
     });
     await consumer.run({
       autoCommit: false,
-      eachBatchAutoResolve: false,
-      eachBatch: async ({ batch, resolveOffset, commitOffsetsIfNecessary }) => {
+      eachBatch: async ({ batch }) => {
         const { topic, partition, messages } = batch;
 
         const messageCount = messages.length;
@@ -35,8 +34,13 @@ export const startConsumer = async () => {
           });
 
           await createMessageBulk(messageList);
-          resolveOffset(messages[messageCount - 1].offset);
-          await commitOffsetsIfNecessary();
+          const lastOffset = (
+            Number(messages[messageCount - 1].offset) + 1
+          ).toString();
+          console.log(lastOffset);
+          await consumer.commitOffsets([
+            { topic, partition, offset: lastOffset },
+          ]);
         }
       },
     });
