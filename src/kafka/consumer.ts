@@ -14,24 +14,30 @@ export const startConsumer = async () => {
       fromBeginning: true,
     });
     await consumer.run({
-      autoCommit: true,
-      eachBatchAutoResolve: true,
-      eachBatch: async ({ batch }) => {
+      autoCommit: false,
+      eachBatchAutoResolve: false,
+      eachBatch: async ({ batch, resolveOffset, commitOffsetsIfNecessary }) => {
         const { topic, partition, messages } = batch;
 
-        const messageList = messages.map(({ key, value }) => {
-          const message = JSON.parse(
-            value?.toString() as string
-          ) as CreateMessageDto;
-          return {
-            senderId: key?.toString(),
-            senderName: message.senderName,
-            receiverId: message.receiverId,
-            message: message.message,
-          };
-        });
+        const messageCount = messages.length;
 
-        await createMessageBulk(messageList);
+        if (messageCount > 0) {
+          const messageList = messages.map(({ key, value }) => {
+            const message = JSON.parse(
+              value?.toString() as string
+            ) as CreateMessageDto;
+            return {
+              senderId: key?.toString(),
+              senderName: message.senderName,
+              receiverId: message.receiverId,
+              message: message.message,
+            };
+          });
+
+          await createMessageBulk(messageList);
+          resolveOffset(messages[messageCount - 1].offset);
+          await commitOffsetsIfNecessary();
+        }
       },
     });
   } catch (e) {
