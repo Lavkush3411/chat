@@ -16,9 +16,9 @@ export async function initializeTopics() {
         ],
       });
       console.log("Topics Created");
+    } else {
+      console.log("No need of Topic Creation as Topic already exists");
     }
-
-    console.log("No need of Topic Creation as Topic already exists");
 
     await admin.disconnect();
   } catch (e) {
